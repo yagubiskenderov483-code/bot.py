@@ -1,0 +1,2097 @@
+<roblox version="4">
+  <Item class="ReplicatedStorage" referent="0">
+    <Properties>
+      <string name="Name">ReplicatedStorage</string>
+    </Properties>
+    <Item class="Folder" referent="1">
+      <Properties>
+        <string name="Name">Modules</string>
+      </Properties>
+      <Item class="ModuleScript" referent="2">
+        <Properties>
+          <string name="Name">EuropeCountries</string>
+          <string name="Source"><![CDATA[--[[
+	EuropeCountries — данные стран Европы для стратегии.
+]]
+
+local DATA = {
+	{ Name = "Россия", Color = Color3.fromRGB(200, 40, 40), Capital = "Москва", Cities = { "Санкт-Петербург", "Казань", "Новосибирск", "Волгоград" }, Money = 1200, Factories = 4, Soldiers = 80, Population = 145000000 },
+	{ Name = "Германия", Color = Color3.fromRGB(50, 50, 50), Capital = "Берлин", Cities = { "Мюнхен", "Гамбург", "Кёльн", "Франкфурт" }, Money = 1100, Factories = 5, Soldiers = 55, Population = 83000000 },
+	{ Name = "Франция", Color = Color3.fromRGB(50, 90, 200), Capital = "Париж", Cities = { "Лион", "Марсель", "Тулуза", "Бордо" }, Money = 1000, Factories = 4, Soldiers = 50, Population = 67000000 },
+	{ Name = "Великобритания", Color = Color3.fromRGB(180, 50, 90), Capital = "Лондон", Cities = { "Манчестер", "Бирмингем", "Эдинбург", "Ливерпуль" }, Money = 950, Factories = 4, Soldiers = 45, Population = 67000000 },
+	{ Name = "Италия", Color = Color3.fromRGB(40, 160, 70), Capital = "Рим", Cities = { "Милан", "Неаполь", "Турин", "Флоренция" }, Money = 850, Factories = 3, Soldiers = 40, Population = 59000000 },
+	{ Name = "Испания", Color = Color3.fromRGB(220, 160, 40), Capital = "Мадрид", Cities = { "Барселона", "Валенсия", "Севилья", "Бильбао" }, Money = 800, Factories = 3, Soldiers = 35, Population = 47000000 },
+	{ Name = "Польша", Color = Color3.fromRGB(220, 80, 100), Capital = "Варшава", Cities = { "Краков", "Гданьск", "Вроцлав" }, Money = 700, Factories = 3, Soldiers = 40, Population = 38000000 },
+	{ Name = "Украина", Color = Color3.fromRGB(40, 120, 200), Capital = "Киев", Cities = { "Харьков", "Одесса", "Львов", "Днепр" }, Money = 650, Factories = 3, Soldiers = 45, Population = 41000000 },
+	{ Name = "Турция", Color = Color3.fromRGB(180, 30, 40), Capital = "Анкара", Cities = { "Стамбул", "Измир", "Анталья" }, Money = 750, Factories = 3, Soldiers = 50, Population = 85000000 },
+	{ Name = "Швеция", Color = Color3.fromRGB(40, 100, 180), Capital = "Стокгольм", Cities = { "Гётеборг", "Мальмё" }, Money = 600, Factories = 2, Soldiers = 20, Population = 10000000 },
+	{ Name = "Норвегия", Color = Color3.fromRGB(180, 40, 50), Capital = "Осло", Cities = { "Берген", "Тронхейм" }, Money = 550, Factories = 2, Soldiers = 15, Population = 5400000 },
+	{ Name = "Финляндия", Color = Color3.fromRGB(80, 140, 200), Capital = "Хельсинки", Cities = { "Тампере", "Турку" }, Money = 500, Factories = 2, Soldiers = 18, Population = 5500000 },
+	{ Name = "Румыния", Color = Color3.fromRGB(200, 180, 40), Capital = "Бухарест", Cities = { "Клуж", "Тимишоара" }, Money = 480, Factories = 2, Soldiers = 25, Population = 19000000 },
+	{ Name = "Чехия", Color = Color3.fromRGB(40, 70, 150), Capital = "Прага", Cities = { "Брно", "Острава" }, Money = 520, Factories = 2, Soldiers = 18, Population = 10700000 },
+	{ Name = "Австрия", Color = Color3.fromRGB(200, 200, 220), Capital = "Вена", Cities = { "Зальцбург", "Грац" }, Money = 540, Factories = 2, Soldiers = 15, Population = 9000000 },
+	{ Name = "Венгрия", Color = Color3.fromRGB(120, 60, 100), Capital = "Будапешт", Cities = { "Дебрецен", "Сегед" }, Money = 460, Factories = 2, Soldiers = 20, Population = 9700000 },
+	{ Name = "Греция", Color = Color3.fromRGB(60, 120, 200), Capital = "Афины", Cities = { "Салоники", "Патрас" }, Money = 420, Factories = 2, Soldiers = 22, Population = 10400000 },
+	{ Name = "Португалия", Color = Color3.fromRGB(40, 140, 70), Capital = "Лиссабон", Cities = { "Порту", "Брага" }, Money = 400, Factories = 2, Soldiers = 16, Population = 10300000 },
+	{ Name = "Нидерланды", Color = Color3.fromRGB(220, 100, 40), Capital = "Амстердам", Cities = { "Роттердам", "Гаага" }, Money = 580, Factories = 3, Soldiers = 18, Population = 17500000 },
+	{ Name = "Бельгия", Color = Color3.fromRGB(200, 180, 60), Capital = "Брюссель", Cities = { "Антверпен", "Гент" }, Money = 500, Factories = 2, Soldiers = 14, Population = 11500000 },
+	{ Name = "Швейцария", Color = Color3.fromRGB(200, 40, 40), Capital = "Берн", Cities = { "Цюрих", "Женева" }, Money = 700, Factories = 2, Soldiers = 12, Population = 8700000 },
+	{ Name = "Дания", Color = Color3.fromRGB(180, 40, 50), Capital = "Копенгаген", Cities = { "Орхус", "Оденсе" }, Money = 480, Factories = 2, Soldiers = 12, Population = 5800000 },
+	{ Name = "Ирландия", Color = Color3.fromRGB(40, 140, 70), Capital = "Дублин", Cities = { "Корк", "Голуэй" }, Money = 450, Factories = 2, Soldiers = 10, Population = 5000000 },
+	{ Name = "Сербия", Color = Color3.fromRGB(100, 40, 60), Capital = "Белград", Cities = { "Нови-Сад", "Ниш" }, Money = 350, Factories = 1, Soldiers = 20, Population = 6800000 },
+	{ Name = "Болгария", Color = Color3.fromRGB(80, 140, 80), Capital = "София", Cities = { "Пловдив", "Варна" }, Money = 340, Factories = 1, Soldiers = 18, Population = 6800000 },
+	{ Name = "Хорватия", Color = Color3.fromRGB(40, 80, 160), Capital = "Загреб", Cities = { "Сплит", "Риека" }, Money = 360, Factories = 1, Soldiers = 14, Population = 4000000 },
+	{ Name = "Словакия", Color = Color3.fromRGB(40, 100, 180), Capital = "Братислава", Cities = { "Кошице", "Прешов" }, Money = 380, Factories = 1, Soldiers = 12, Population = 5400000 },
+	{ Name = "Литва", Color = Color3.fromRGB(200, 160, 40), Capital = "Вильнюс", Cities = { "Каунас", "Клайпеда" }, Money = 320, Factories = 1, Soldiers = 10, Population = 2800000 },
+	{ Name = "Латвия", Color = Color3.fromRGB(140, 40, 60), Capital = "Рига", Cities = { "Даугавпилс", "Лиепая" }, Money = 300, Factories = 1, Soldiers = 8, Population = 1900000 },
+	{ Name = "Эстония", Color = Color3.fromRGB(40, 80, 160), Capital = "Таллин", Cities = { "Тарту", "Нарва" }, Money = 290, Factories = 1, Soldiers = 7, Population = 1300000 },
+	{ Name = "Беларусь", Color = Color3.fromRGB(80, 140, 80), Capital = "Минск", Cities = { "Гомель", "Брест", "Витебск" }, Money = 400, Factories = 2, Soldiers = 30, Population = 9400000 },
+	{ Name = "Молдова", Color = Color3.fromRGB(40, 100, 160), Capital = "Кишинёв", Cities = { "Тирасполь", "Бельцы" }, Money = 250, Factories = 1, Soldiers = 8, Population = 2600000 },
+}
+
+local EuropeCountries = {}
+local byName = {}
+for _, c in ipairs(DATA) do
+	byName[c.Name] = c
+end
+
+function EuropeCountries.Get(name: string)
+	return byName[name]
+end
+
+function EuropeCountries.All()
+	return DATA
+end
+
+return EuropeCountries
+]]></string>
+        </Properties>
+      </Item>
+      <Item class="ModuleScript" referent="3">
+        <Properties>
+          <string name="Name">EuropeGrid</string>
+          <string name="Source"><![CDATA[--[[
+	EuropeGrid — сетка Европы по приближённой реальной географии.
+	Cells: {col, row, "Страна"} | CityCells: город → {col, row}
+	Вода = отсутствие клетки страны.
+]]
+
+local EuropeGrid = {}
+
+EuropeGrid.Cols = 72
+EuropeGrid.Rows = 48
+EuropeGrid.CellSize = 8 -- studs
+
+-- Города и столицы (якоря на сетке, ~реальные относительные координаты)
+-- col растёт на восток, row растёт на юг (север сверху)
+EuropeGrid.CityCells = {
+	-- Запад
+	["Лиссабон"] = { 6, 36 },
+	["Порту"] = { 7, 33 },
+	["Брага"] = { 7, 32 },
+	["Мадрид"] = { 12, 34 },
+	["Барселона"] = { 18, 33 },
+	["Валенсия"] = { 15, 35 },
+	["Севилья"] = { 10, 37 },
+	["Бильбао"] = { 13, 31 },
+	["Париж"] = { 20, 24 },
+	["Лион"] = { 22, 27 },
+	["Марсель"] = { 23, 30 },
+	["Тулуза"] = { 18, 29 },
+	["Бордо"] = { 16, 28 },
+	["Лондон"] = { 18, 20 },
+	["Манчестер"] = { 17, 17 },
+	["Бирмингем"] = { 17, 18 },
+	["Эдинбург"] = { 16, 14 },
+	["Ливерпуль"] = { 16, 17 },
+	["Дублин"] = { 12, 18 },
+	["Корк"] = { 11, 20 },
+	["Голуэй"] = { 11, 18 },
+	["Амстердам"] = { 22, 19 },
+	["Роттердам"] = { 22, 20 },
+	["Гаага"] = { 21, 20 },
+	["Брюссель"] = { 21, 21 },
+	["Антверпен"] = { 21, 20 },
+	["Гент"] = { 20, 21 },
+	["Берн"] = { 24, 26 },
+	["Цюрих"] = { 25, 25 },
+	["Женева"] = { 23, 27 },
+
+	-- Центр
+	["Берлин"] = { 30, 20 },
+	["Мюнхен"] = { 28, 25 },
+	["Гамбург"] = { 28, 17 },
+	["Кёльн"] = { 25, 21 },
+	["Франкфурт"] = { 26, 22 },
+	["Прага"] = { 31, 23 },
+	["Брно"] = { 32, 24 },
+	["Острава"] = { 33, 23 },
+	["Вена"] = { 33, 25 },
+	["Зальцбург"] = { 31, 26 },
+	["Грац"] = { 33, 27 },
+	["Будапешт"] = { 35, 26 },
+	["Дебрецен"] = { 37, 26 },
+	["Сегед"] = { 36, 28 },
+	["Братислава"] = { 34, 25 },
+	["Кошице"] = { 36, 24 },
+	["Прешов"] = { 36, 23 },
+	["Варшава"] = { 36, 20 },
+	["Краков"] = { 35, 23 },
+	["Гданьск"] = { 35, 16 },
+	["Вроцлав"] = { 33, 21 },
+
+	-- Юг
+	["Рим"] = { 28, 33 },
+	["Милан"] = { 26, 28 },
+	["Неаполь"] = { 29, 35 },
+	["Турин"] = { 24, 28 },
+	["Флоренция"] = { 27, 31 },
+	["Афины"] = { 38, 38 },
+	["Салоники"] = { 37, 35 },
+	["Патрас"] = { 36, 38 },
+	["Белград"] = { 35, 30 },
+	["Нови-Сад"] = { 35, 29 },
+	["Ниш"] = { 36, 32 },
+	["Загреб"] = { 32, 29 },
+	["Сплит"] = { 32, 32 },
+	["Риека"] = { 31, 30 },
+	["София"] = { 38, 33 },
+	["Пловдив"] = { 39, 34 },
+	["Варна"] = { 41, 33 },
+	["Бухарест"] = { 40, 31 },
+	["Клуж"] = { 38, 28 },
+	["Тимишоара"] = { 36, 29 },
+
+	-- Восток
+	["Киев"] = { 44, 24 },
+	["Харьков"] = { 48, 24 },
+	["Одесса"] = { 45, 29 },
+	["Львов"] = { 40, 23 },
+	["Днепр"] = { 47, 26 },
+	["Минск"] = { 42, 18 },
+	["Гомель"] = { 44, 20 },
+	["Брест"] = { 39, 19 },
+	["Витебск"] = { 43, 16 },
+	["Кишинёв"] = { 43, 29 },
+	["Тирасполь"] = { 44, 29 },
+	["Бельцы"] = { 42, 28 },
+	["Москва"] = { 52, 16 },
+	["Санкт-Петербург"] = { 48, 10 },
+	["Казань"] = { 58, 15 },
+	["Новосибирск"] = { 68, 14 },
+	["Волгоград"] = { 56, 24 },
+	["Анкара"] = { 48, 38 },
+	["Стамбул"] = { 44, 36 },
+	["Измир"] = { 42, 39 },
+	["Анталья"] = { 46, 41 },
+
+	-- Север
+	["Стокгольм"] = { 34, 10 },
+	["Гётеборг"] = { 30, 12 },
+	["Мальмё"] = { 30, 15 },
+	["Осло"] = { 28, 9 },
+	["Берген"] = { 25, 9 },
+	["Тронхейм"] = { 28, 5 },
+	["Хельсинки"] = { 40, 9 },
+	["Тампере"] = { 39, 8 },
+	["Турку"] = { 38, 10 },
+	["Копенгаген"] = { 29, 16 },
+	["Орхус"] = { 28, 15 },
+	["Оденсе"] = { 28, 16 },
+	["Вильнюс"] = { 40, 15 },
+	["Каунас"] = { 39, 16 },
+	["Клайпеда"] = { 38, 14 },
+	["Рига"] = { 39, 12 },
+	["Даугавпилс"] = { 41, 14 },
+	["Лиепая"] = { 37, 13 },
+	["Таллин"] = { 39, 9 },
+	["Тарту"] = { 41, 10 },
+	["Нарва"] = { 42, 9 },
+}
+
+-- Прямоугольные регионы стран (minCol, maxCol, minRow, maxRow) — приближение границ Европы
+local REGIONS = {
+	{ "Португалия", 5, 8, 31, 38 },
+	{ "Испания", 9, 17, 30, 39 },
+	{ "Франция", 15, 24, 22, 31 },
+	{ "Ирландия", 10, 13, 16, 21 },
+	{ "Великобритания", 15, 20, 13, 21 },
+	{ "Бельгия", 20, 22, 20, 22 },
+	{ "Нидерланды", 21, 24, 18, 20 },
+	{ "Швейцария", 23, 26, 25, 27 },
+	{ "Италия", 24, 30, 28, 37 },
+	{ "Германия", 24, 32, 17, 25 },
+	{ "Дания", 27, 30, 14, 16 },
+	{ "Австрия", 30, 34, 24, 27 },
+	{ "Чехия", 30, 34, 21, 24 },
+	{ "Польша", 32, 39, 16, 23 },
+	{ "Словакия", 33, 37, 23, 25 },
+	{ "Венгрия", 34, 38, 25, 28 },
+	{ "Хорватия", 30, 34, 28, 32 },
+	{ "Сербия", 34, 37, 28, 32 },
+	{ "Румыния", 37, 43, 27, 32 },
+	{ "Болгария", 37, 42, 32, 35 },
+	{ "Греция", 35, 40, 35, 40 },
+	{ "Украина", 40, 50, 20, 30 },
+	{ "Молдова", 42, 45, 27, 30 },
+	{ "Беларусь", 39, 45, 15, 20 },
+	{ "Литва", 38, 42, 14, 16 },
+	{ "Латвия", 37, 42, 11, 14 },
+	{ "Эстония", 38, 43, 8, 11 },
+	{ "Финляндия", 38, 48, 3, 10 },
+	{ "Швеция", 30, 37, 3, 15 },
+	{ "Норвегия", 24, 30, 2, 12 },
+	{ "Россия", 45, 71, 4, 28 },
+	{ "Турция", 42, 55, 36, 43 },
+}
+
+-- Перекрытия: приоритет (кто «сверху» при наложении регионов)
+local PRIORITY = {
+	Португалия = 10,
+	Испания = 9,
+	Ирландия = 10,
+	Великобритания = 10,
+	Франция = 8,
+	Бельгия = 12,
+	Нидерланды = 12,
+	Швейцария = 12,
+	Италия = 9,
+	Германия = 8,
+	Дания = 11,
+	Австрия = 11,
+	Чехия = 11,
+	Польша = 8,
+	Словакия = 11,
+	Венгрия = 10,
+	Хорватия = 10,
+	Сербия = 10,
+	Румыния = 9,
+	Болгария = 10,
+	Греция = 10,
+	Молдова = 12,
+	Украина = 7,
+	Беларусь = 9,
+	Литва = 11,
+	Латвия = 11,
+	Эстония = 11,
+	Финляндия = 8,
+	Швеция = 8,
+	Норвегия = 9,
+	Турция = 9,
+	Россия = 5,
+}
+
+local function buildCells()
+	local map = {} -- key "c,r" -> { country, priority }
+	for _, reg in ipairs(REGIONS) do
+		local name, c0, c1, r0, r1 = reg[1], reg[2], reg[3], reg[4], reg[5]
+		local prio = PRIORITY[name] or 1
+		for c = c0, c1 do
+			for r = r0, r1 do
+				-- лёгкая «неровность» границ: вырезаем углы
+				local edge = (c == c0 or c == c1 or r == r0 or r == r1)
+				if edge and ((c + r) % 5 == 0) then
+					-- пропускаем клетку — имитация берега/границы
+				else
+					local key = c .. "," .. r
+					local cur = map[key]
+					if not cur or prio > cur.priority then
+						map[key] = { country = name, priority = prio }
+					end
+				end
+			end
+		end
+	end
+
+	-- Гарантируем, что клетки городов принадлежат своей стране
+	local cityCountry = {
+		["Лиссабон"] = "Португалия", ["Порту"] = "Португалия", ["Брага"] = "Португалия",
+		["Мадрид"] = "Испания", ["Барселона"] = "Испания", ["Валенсия"] = "Испания",
+		["Севилья"] = "Испания", ["Бильбао"] = "Испания",
+		["Париж"] = "Франция", ["Лион"] = "Франция", ["Марсель"] = "Франция",
+		["Тулуза"] = "Франция", ["Бордо"] = "Франция",
+		["Лондон"] = "Великобритания", ["Манчестер"] = "Великобритания",
+		["Бирмингем"] = "Великобритания", ["Эдинбург"] = "Великобритания", ["Ливерпуль"] = "Великобритания",
+		["Дублин"] = "Ирландия", ["Корк"] = "Ирландия", ["Голуэй"] = "Ирландия",
+		["Амстердам"] = "Нидерланды", ["Роттердам"] = "Нидерланды", ["Гаага"] = "Нидерланды",
+		["Брюссель"] = "Бельгия", ["Антверпен"] = "Бельгия", ["Гент"] = "Бельгия",
+		["Берн"] = "Швейцария", ["Цюрих"] = "Швейцария", ["Женева"] = "Швейцария",
+		["Берлин"] = "Германия", ["Мюнхен"] = "Германия", ["Гамбург"] = "Германия",
+		["Кёльн"] = "Германия", ["Франкфурт"] = "Германия",
+		["Прага"] = "Чехия", ["Брно"] = "Чехия", ["Острава"] = "Чехия",
+		["Вена"] = "Австрия", ["Зальцбург"] = "Австрия", ["Грац"] = "Австрия",
+		["Будапешт"] = "Венгрия", ["Дебрецен"] = "Венгрия", ["Сегед"] = "Венгрия",
+		["Братислава"] = "Словакия", ["Кошице"] = "Словакия", ["Прешов"] = "Словакия",
+		["Варшава"] = "Польша", ["Краков"] = "Польша", ["Гданьск"] = "Польша", ["Вроцлав"] = "Польша",
+		["Рим"] = "Италия", ["Милан"] = "Италия", ["Неаполь"] = "Италия",
+		["Турин"] = "Италия", ["Флоренция"] = "Италия",
+		["Афины"] = "Греция", ["Салоники"] = "Греция", ["Патрас"] = "Греция",
+		["Белград"] = "Сербия", ["Нови-Сад"] = "Сербия", ["Ниш"] = "Сербия",
+		["Загреб"] = "Хорватия", ["Сплит"] = "Хорватия", ["Риека"] = "Хорватия",
+		["София"] = "Болгария", ["Пловдив"] = "Болгария", ["Варна"] = "Болгария",
+		["Бухарест"] = "Румыния", ["Клуж"] = "Румыния", ["Тимишоара"] = "Румыния",
+		["Киев"] = "Украина", ["Харьков"] = "Украина", ["Одесса"] = "Украина",
+		["Львов"] = "Украина", ["Днепр"] = "Украина",
+		["Минск"] = "Беларусь", ["Гомель"] = "Беларусь", ["Брест"] = "Беларусь", ["Витебск"] = "Беларусь",
+		["Кишинёв"] = "Молдова", ["Тирасполь"] = "Молдова", ["Бельцы"] = "Молдова",
+		["Москва"] = "Россия", ["Санкт-Петербург"] = "Россия", ["Казань"] = "Россия",
+		["Новосибирск"] = "Россия", ["Волгоград"] = "Россия",
+		["Анкара"] = "Турция", ["Стамбул"] = "Турция", ["Измир"] = "Турция", ["Анталья"] = "Турция",
+		["Стокгольм"] = "Швеция", ["Гётеборг"] = "Швеция", ["Мальмё"] = "Швеция",
+		["Осло"] = "Норвегия", ["Берген"] = "Норвегия", ["Тронхейм"] = "Норвегия",
+		["Хельсинки"] = "Финляндия", ["Тампере"] = "Финляндия", ["Турку"] = "Финляндия",
+		["Копенгаген"] = "Дания", ["Орхус"] = "Дания", ["Оденсе"] = "Дания",
+		["Вильнюс"] = "Литва", ["Каунас"] = "Литва", ["Клайпеда"] = "Литва",
+		["Рига"] = "Латвия", ["Даугавпилс"] = "Латвия", ["Лиепая"] = "Латвия",
+		["Таллин"] = "Эстония", ["Тарту"] = "Эстония", ["Нарва"] = "Эстония",
+	}
+
+	for city, cell in pairs(EuropeGrid.CityCells) do
+		local country = cityCountry[city]
+		if country then
+			local key = cell[1] .. "," .. cell[2]
+			map[key] = { country = country, priority = 99 }
+			-- соседние клетки вокруг города
+			for dc = -1, 1 do
+				for dr = -1, 1 do
+					local c2, r2 = cell[1] + dc, cell[2] + dr
+					if c2 >= 1 and c2 <= EuropeGrid.Cols and r2 >= 1 and r2 <= EuropeGrid.Rows then
+						local k2 = c2 .. "," .. r2
+						local cur = map[k2]
+						if not cur or cur.priority < 50 then
+							map[k2] = { country = country, priority = 50 }
+						end
+					end
+				end
+			end
+		end
+	end
+
+	local cells = {}
+	for key, data in pairs(map) do
+		local c, r = key:match("^(%d+),(%d+)$")
+		table.insert(cells, { tonumber(c), tonumber(r), data.country })
+	end
+	return cells
+end
+
+EuropeGrid.Cells = buildCells()
+
+function EuropeGrid.CellToWorld(col: number, row: number): Vector3
+	local size = EuropeGrid.CellSize
+	local x = (col - EuropeGrid.Cols / 2) * size
+	local z = (row - EuropeGrid.Rows / 2) * size
+	return Vector3.new(x, 0, z)
+end
+
+function EuropeGrid.GetCountryAt(col: number, row: number): string?
+	for _, cell in ipairs(EuropeGrid.Cells) do
+		if cell[1] == col and cell[2] == row then
+			return cell[3]
+		end
+	end
+	return nil
+end
+
+function EuropeGrid.GetFirstLandCell(): (number, number)
+	-- Франция / центр Европы — безопасный спавн
+	return 20, 24
+end
+
+return EuropeGrid
+]]></string>
+        </Properties>
+      </Item>
+    </Item>
+    <Item class="Folder" referent="4">
+      <Properties>
+        <string name="Name">Remotes</string>
+      </Properties>
+    </Item>
+  </Item>
+  <Item class="ServerScriptService" referent="5">
+    <Properties>
+      <string name="Name">ServerScriptService</string>
+    </Properties>
+    <Item class="Script" referent="6">
+      <Properties>
+        <string name="Name">Bootstrap</string>
+        <token name="RunContext">0</token>
+        <string name="Source"><![CDATA[--[[
+	Bootstrap — создаёт Remotes, отключает автоспавн до готовности карты.
+	Должен запускаться ПЕРВЫМ (имя Bootstrap — раньше World/War по алфавиту).
+]]
+
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+-- Критично: не спавнить в пустоте до построения карты
+Players.CharacterAutoLoads = false
+
+local function ensureFolder(parent: Instance, name: string): Folder
+	local f = parent:FindFirstChild(name)
+	if f and f:IsA("Folder") then
+		return f
+	end
+	if f then
+		f:Destroy()
+	end
+	local folder = Instance.new("Folder")
+	folder.Name = name
+	folder.Parent = parent
+	return folder
+end
+
+local modules = ensureFolder(ReplicatedStorage, "Modules")
+local remotes = ensureFolder(ReplicatedStorage, "Remotes")
+
+local REMOTE_NAMES = {
+	"RequestCountryInfo",
+	"CountryInfoUpdate",
+	"DateUpdate",
+	"BuyFactory",
+	"TrainSoldiers",
+	"BuyResearch",
+	"DeclareWar",
+	"WarLogUpdate",
+	"LeaderboardUpdate",
+	"CountryListUpdate",
+	"ClaimCountry",
+	"MapReady",
+	"ShowBanner",
+}
+
+for _, name in ipairs(REMOTE_NAMES) do
+	if not remotes:FindFirstChild(name) then
+		local re = Instance.new("RemoteEvent")
+		re.Name = name
+		re.Parent = remotes
+	end
+end
+
+-- Флаг готовности мира
+local ready = Instance.new("BoolValue")
+ready.Name = "WorldReady"
+ready.Value = false
+ready.Parent = ReplicatedStorage
+
+print("[Europe] Bootstrap: Remotes готовы, CharacterAutoLoads=false")
+]]></string>
+      </Properties>
+    </Item>
+    <Item class="ModuleScript" referent="7">
+      <Properties>
+        <string name="Name">CountryState</string>
+        <string name="Source"><![CDATA[--[[
+	CountryState — runtime-состояние стран (сервер).
+	Money / Factories / Population / Soldiers / Owner / AtWarWith / ResearchLevel
+]]
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local EuropeCountries = require(ReplicatedStorage:WaitForChild("Modules"):WaitForChild("EuropeCountries"))
+
+local CountryState = {}
+CountryState.__index = CountryState
+
+local states: { [string]: any } = {}
+local playerCountry: { [number]: string } = {} -- UserId -> country name
+
+function CountryState.Init()
+	states = {}
+	playerCountry = {}
+	for _, c in ipairs(EuropeCountries.All()) do
+		states[c.Name] = {
+			Name = c.Name,
+			Color = c.Color,
+			Capital = c.Capital,
+			Cities = table.clone(c.Cities),
+			Money = c.Money,
+			Factories = c.Factories,
+			Soldiers = c.Soldiers,
+			Population = c.Population,
+			Owner = nil :: Player?,
+			AtWarWith = {} :: { [string]: boolean },
+			ResearchLevel = 0,
+			Buildings = 0,
+			JustificationUntil = 0, -- tick time
+			WarTarget = nil :: string?,
+		}
+	end
+end
+
+function CountryState.Get(name: string)
+	return states[name]
+end
+
+function CountryState.All()
+	return states
+end
+
+function CountryState.GetPlayerCountry(player: Player): string?
+	return playerCountry[player.UserId]
+end
+
+function CountryState.SetOwner(countryName: string, player: Player?): boolean
+	local st = states[countryName]
+	if not st then
+		return false
+	end
+	if player then
+		-- Игрок уже владеет другой страной?
+		local old = playerCountry[player.UserId]
+		if old and old ~= countryName then
+			return false
+		end
+		if st.Owner and st.Owner ~= player then
+			return false
+		end
+		st.Owner = player
+		playerCountry[player.UserId] = countryName
+	else
+		local owner = st.Owner
+		st.Owner = nil
+		if owner then
+			playerCountry[owner.UserId] = nil
+		end
+	end
+	return true
+end
+
+function CountryState.ClearPlayer(player: Player)
+	local name = playerCountry[player.UserId]
+	if name and states[name] then
+		states[name].Owner = nil
+		states[name].AtWarWith = {}
+		states[name].WarTarget = nil
+		states[name].JustificationUntil = 0
+	end
+	playerCountry[player.UserId] = nil
+end
+
+function CountryState.Snapshot(name: string)
+	local st = states[name]
+	if not st then
+		return nil
+	end
+	local wars = {}
+	for enemy, _ in pairs(st.AtWarWith) do
+		table.insert(wars, enemy)
+	end
+	return {
+		Name = st.Name,
+		Capital = st.Capital,
+		Money = math.floor(st.Money),
+		Factories = st.Factories,
+		Soldiers = math.floor(st.Soldiers),
+		Population = math.floor(st.Population),
+		ResearchLevel = st.ResearchLevel,
+		Buildings = st.Buildings,
+		OwnerName = st.Owner and st.Owner.Name or nil,
+		AtWarWith = wars,
+		WarTarget = st.WarTarget,
+		JustificationUntil = st.JustificationUntil,
+		Color = { st.Color.R, st.Color.G, st.Color.B },
+	}
+end
+
+function CountryState.ListSnapshot()
+	local list = {}
+	for name, _ in pairs(states) do
+		table.insert(list, CountryState.Snapshot(name))
+	end
+	table.sort(list, function(a, b)
+		return a.Name < b.Name
+	end)
+	return list
+end
+
+function CountryState.Score(st): number
+	return (st.Population / 1000) + (st.Money / 10) + st.Soldiers
+end
+
+return CountryState
+]]></string>
+      </Properties>
+    </Item>
+    <Item class="Script" referent="8">
+      <Properties>
+        <string name="Name">WarAndEconomyServer</string>
+        <token name="RunContext">0</token>
+        <string name="Source"><![CDATA[--[[
+	WarAndEconomyServer — экономика, исследования, войны, лидерборд, дата.
+]]
+
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local RunService = game:GetService("RunService")
+
+local remotesFolder = ReplicatedStorage:WaitForChild("Remotes")
+local worldReady = ReplicatedStorage:WaitForChild("WorldReady")
+while not worldReady.Value do
+	worldReady.Changed:Wait()
+end
+
+local CountryState = require(script.Parent:WaitForChild("CountryState"))
+
+local function remote(name: string): RemoteEvent
+	local r = remotesFolder:WaitForChild(name)
+	assert(r:IsA("RemoteEvent"))
+	return r
+end
+
+local RequestCountryInfo = remote("RequestCountryInfo")
+local CountryInfoUpdate = remote("CountryInfoUpdate")
+local DateUpdate = remote("DateUpdate")
+local BuyFactory = remote("BuyFactory")
+local TrainSoldiers = remote("TrainSoldiers")
+local BuyResearch = remote("BuyResearch")
+local DeclareWar = remote("DeclareWar")
+local WarLogUpdate = remote("WarLogUpdate")
+local LeaderboardUpdate = remote("LeaderboardUpdate")
+local CountryListUpdate = remote("CountryListUpdate")
+local ClaimCountry = remote("ClaimCountry")
+local ShowBanner = remote("ShowBanner")
+
+-- Игровая дата
+local year, month, day = 1936, 1, 1
+local FACTORY_BASE = 120
+local SOLDIER_COST = 15
+local SOLDIERS_PER_TRAIN = 5
+local RESEARCH_BASE = 200
+local JUSTIFY_SEC = 25
+local WAR_TICK_SEC = 6
+local LEADERBOARD_SEC = 8
+local INCOME_SEC = 4
+
+local activeWars: {
+	[string]: {
+		attacker: string,
+		defender: string,
+		progress: number, -- 0..1, 1 = у столицы цели
+		marker: BasePart?,
+		phase: string, -- "justify" | "war"
+		justifyEnds: number,
+	}
+} = {}
+
+local function broadcastBanner(text: string)
+	ShowBanner:FireAllClients(text)
+	WarLogUpdate:FireAllClients(text)
+end
+
+local function pushCountry(player: Player?, countryName: string)
+	local snap = CountryState.Snapshot(countryName)
+	if not snap then
+		return
+	end
+	if player then
+		CountryInfoUpdate:FireClient(player, snap)
+	else
+		CountryInfoUpdate:FireAllClients(snap)
+	end
+end
+
+local function pushPlayerOwn(player: Player)
+	local name = CountryState.GetPlayerCountry(player)
+	if name then
+		pushCountry(player, name)
+	end
+end
+
+local function factoryPrice(st): number
+	return math.floor(FACTORY_BASE * (1 + st.Factories * 0.35))
+end
+
+local function researchPrice(st): number
+	return math.floor(RESEARCH_BASE * (1 + st.ResearchLevel * 0.6))
+end
+
+local function incomePerTick(st): number
+	local researchBonus = 1 + st.ResearchLevel * 0.1
+	return (30 + st.Factories * 18 + st.Population / 3000000) * researchBonus
+end
+
+local function armyPower(st): number
+	local researchBonus = 1 + st.ResearchLevel * 0.1
+	local jitter = 0.85 + math.random() * 0.3
+	return st.Soldiers * researchBonus * jitter
+end
+
+local function ensureMapAPI()
+	return _G.EuropeMapAPI
+end
+
+local function createArmyMarker(attackerName: string, fromPos: Vector3, color: Color3): BasePart
+	local units = ensureMapAPI() and ensureMapAPI().GetUnitsFolder()
+	local ball = Instance.new("Part")
+	ball.Name = "Army_" .. attackerName
+	ball.Shape = Enum.PartType.Ball
+	ball.Size = Vector3.new(4, 4, 4)
+	ball.Anchored = true
+	ball.CanCollide = false
+	ball.Material = Enum.Material.Neon
+	ball.Color = color
+	ball.Position = fromPos
+	ball.Parent = units
+
+	local light = Instance.new("PointLight")
+	light.Brightness = 2
+	light.Range = 18
+	light.Color = color
+	light.Parent = ball
+
+	return ball
+end
+
+local function annexCountry(attackerName: string, defenderName: string)
+	local atk = CountryState.Get(attackerName)
+	local def = CountryState.Get(defenderName)
+	if not atk or not def then
+		return
+	end
+
+	-- Экономика присоединяется
+	atk.Money += def.Money * 0.5
+	atk.Population += def.Population
+	atk.Factories += math.max(1, math.floor(def.Factories * 0.5))
+	atk.Soldiers += math.floor(def.Soldiers * 0.4)
+	atk.Buildings += def.Buildings
+
+	-- Тайлы → цвет атакующего
+	local api = ensureMapAPI()
+	if api then
+		api.TransferTiles(defenderName, attackerName, atk.Color)
+		api.RecolorCountry(attackerName, atk.Color)
+	end
+
+	-- Побеждённая страна сбрасывается (снова свободна)
+	local oldOwner = def.Owner
+	def.Owner = nil
+	def.Money = 200
+	def.Factories = 1
+	def.Soldiers = 10
+	def.Population = math.max(500000, math.floor(def.Population * 0.15))
+	def.ResearchLevel = 0
+	def.Buildings = 0
+	def.AtWarWith = {}
+	def.WarTarget = nil
+	def.JustificationUntil = 0
+
+	if oldOwner then
+		-- владелец проигравшей теряет страну
+		CountryState.ClearPlayer(oldOwner)
+	end
+
+	atk.AtWarWith[defenderName] = nil
+	atk.WarTarget = nil
+
+	broadcastBanner(("%s захватила %s!"):format(attackerName, defenderName))
+	CountryListUpdate:FireAllClients(CountryState.ListSnapshot())
+	for _, p in ipairs(Players:GetPlayers()) do
+		pushPlayerOwn(p)
+	end
+end
+
+local function endWar(key: string)
+	local war = activeWars[key]
+	if not war then
+		return
+	end
+	if war.marker then
+		war.marker:Destroy()
+	end
+	local atk = CountryState.Get(war.attacker)
+	local def = CountryState.Get(war.defender)
+	if atk then
+		atk.AtWarWith[war.defender] = nil
+		atk.WarTarget = nil
+	end
+	if def then
+		def.AtWarWith[war.attacker] = nil
+	end
+	activeWars[key] = nil
+end
+
+-- === Remotes ===
+
+RequestCountryInfo.OnServerEvent:Connect(function(player, countryName)
+	if typeof(countryName) ~= "string" then
+		return
+	end
+	pushCountry(player, countryName)
+end)
+
+ClaimCountry.OnServerEvent:Connect(function(player, countryName)
+	if typeof(countryName) ~= "string" then
+		return
+	end
+	local st = CountryState.Get(countryName)
+	if not st then
+		return
+	end
+	-- Уже владеет?
+	if CountryState.GetPlayerCountry(player) then
+		pushCountry(player, countryName)
+		return
+	end
+	if st.Owner then
+		pushCountry(player, countryName)
+		return
+	end
+	if CountryState.SetOwner(countryName, player) then
+		broadcastBanner(("%s стал лидером %s"):format(player.Name, countryName))
+		pushCountry(player, countryName)
+		CountryListUpdate:FireAllClients(CountryState.ListSnapshot())
+	end
+end)
+
+BuyFactory.OnServerEvent:Connect(function(player)
+	local name = CountryState.GetPlayerCountry(player)
+	if not name then
+		return
+	end
+	local st = CountryState.Get(name)
+	local price = factoryPrice(st)
+	if st.Money < price then
+		return
+	end
+	st.Money -= price
+	st.Factories += 1
+	st.Buildings += 1
+	local api = ensureMapAPI()
+	if api and api.AddFactory then
+		api.AddFactory(name)
+	end
+	pushPlayerOwn(player)
+end)
+
+TrainSoldiers.OnServerEvent:Connect(function(player)
+	local name = CountryState.GetPlayerCountry(player)
+	if not name then
+		return
+	end
+	local st = CountryState.Get(name)
+	local cost = SOLDIER_COST * SOLDIERS_PER_TRAIN
+	if st.Money < cost then
+		return
+	end
+	st.Money -= cost
+	st.Soldiers += SOLDIERS_PER_TRAIN
+	pushPlayerOwn(player)
+end)
+
+BuyResearch.OnServerEvent:Connect(function(player)
+	local name = CountryState.GetPlayerCountry(player)
+	if not name then
+		return
+	end
+	local st = CountryState.Get(name)
+	local price = researchPrice(st)
+	if st.Money < price then
+		return
+	end
+	st.Money -= price
+	st.ResearchLevel += 1
+	pushPlayerOwn(player)
+end)
+
+DeclareWar.OnServerEvent:Connect(function(player, targetName)
+	if typeof(targetName) ~= "string" then
+		return
+	end
+	local atkName = CountryState.GetPlayerCountry(player)
+	if not atkName or atkName == targetName then
+		return
+	end
+	local atk = CountryState.Get(atkName)
+	local def = CountryState.Get(targetName)
+	if not atk or not def then
+		return
+	end
+	if atk.WarTarget or atk.AtWarWith[targetName] then
+		return
+	end
+	-- Нельзя объявить войну стране без владельца? — можно (NPC)
+	local key = atkName .. ">" .. targetName
+	if activeWars[key] then
+		return
+	end
+
+	atk.AtWarWith[targetName] = true
+	def.AtWarWith[atkName] = true
+	atk.WarTarget = targetName
+	atk.JustificationUntil = os.clock() + JUSTIFY_SEC
+
+	local api = ensureMapAPI()
+	local fromPos = api and api.GetCapitalWorldPos(atkName) or Vector3.new(0, 3, 0)
+
+	activeWars[key] = {
+		attacker = atkName,
+		defender = targetName,
+		progress = 0,
+		marker = nil,
+		phase = "justify",
+		justifyEnds = os.clock() + JUSTIFY_SEC,
+	}
+
+	broadcastBanner(("%s начала обоснование войны против %s"):format(atkName, targetName))
+	pushPlayerOwn(player)
+	CountryListUpdate:FireAllClients(CountryState.ListSnapshot())
+end)
+
+-- Клик по тайлу страны
+task.defer(function()
+	local api = ensureMapAPI()
+	while not api do
+		task.wait(0.5)
+		api = ensureMapAPI()
+	end
+	local folder = api.GetCountriesFolder()
+	for _, model in ipairs(folder:GetChildren()) do
+		for _, part in ipairs(model:GetChildren()) do
+			if part:IsA("BasePart") then
+				local cd = part:FindFirstChildOfClass("ClickDetector")
+				if cd then
+					cd.MouseClick:Connect(function(player)
+						local countryName = part:GetAttribute("Country")
+						if typeof(countryName) ~= "string" then
+							return
+						end
+						local st = CountryState.Get(countryName)
+						if not st then
+							return
+						end
+						-- Первый клик = захват, если свободна и игрок без страны
+						if not CountryState.GetPlayerCountry(player) and not st.Owner then
+							if CountryState.SetOwner(countryName, player) then
+								broadcastBanner(("%s стал лидером %s"):format(player.Name, countryName))
+								CountryListUpdate:FireAllClients(CountryState.ListSnapshot())
+							end
+						end
+						pushCountry(player, countryName)
+					end)
+				end
+			end
+		end
+	end
+end)
+
+Players.PlayerRemoving:Connect(function(player)
+	CountryState.ClearPlayer(player)
+	CountryListUpdate:FireAllClients(CountryState.ListSnapshot())
+end)
+
+-- === Loops ===
+
+-- Доход
+task.spawn(function()
+	while true do
+		task.wait(INCOME_SEC)
+		for _, st in pairs(CountryState.All()) do
+			if st.Owner then
+				st.Money += incomePerTick(st)
+				st.Population += st.Factories * 50
+			end
+		end
+		for _, p in ipairs(Players:GetPlayers()) do
+			pushPlayerOwn(p)
+		end
+	end
+end)
+
+-- Дата
+task.spawn(function()
+	while true do
+		task.wait(2)
+		day += 1
+		if day > 30 then
+			day = 1
+			month += 1
+		end
+		if month > 12 then
+			month = 1
+			year += 1
+		end
+		DateUpdate:FireAllClients(("%d.%02d.%d"):format(day, month, year))
+	end
+end)
+
+-- Лидерборд
+task.spawn(function()
+	while true do
+		task.wait(LEADERBOARD_SEC)
+		local rows = {}
+		for _, st in pairs(CountryState.All()) do
+			if st.Owner then
+				table.insert(rows, {
+					Player = st.Owner.Name,
+					Country = st.Name,
+					Score = math.floor(CountryState.Score(st)),
+				})
+			end
+		end
+		table.sort(rows, function(a, b)
+			return a.Score > b.Score
+		end)
+		local top = {}
+		for i = 1, math.min(10, #rows) do
+			top[i] = rows[i]
+		end
+		LeaderboardUpdate:FireAllClients(top)
+	end
+end)
+
+-- Войны
+task.spawn(function()
+	while true do
+		task.wait(1)
+		local now = os.clock()
+		for key, war in pairs(activeWars) do
+			local atk = CountryState.Get(war.attacker)
+			local def = CountryState.Get(war.defender)
+			if not atk or not def then
+				endWar(key)
+				continue
+			end
+
+			if war.phase == "justify" then
+				if now >= war.justifyEnds then
+					war.phase = "war"
+					local api = ensureMapAPI()
+					local fromPos = api and api.GetCapitalWorldPos(war.attacker) or Vector3.new(0, 3, 0)
+					war.marker = createArmyMarker(war.attacker, fromPos, atk.Color)
+					broadcastBanner(("%s объявила войну %s!"):format(war.attacker, war.defender))
+					war._nextTick = now + WAR_TICK_SEC
+				end
+			elseif war.phase == "war" then
+				if not war._nextTick or now >= war._nextTick then
+					war._nextTick = now + WAR_TICK_SEC
+					local ap = armyPower(atk)
+					local dp = armyPower(def)
+					local attackerWins = ap >= dp
+
+					-- потери
+					atk.Soldiers = math.max(0, atk.Soldiers - math.random(1, 4))
+					def.Soldiers = math.max(0, def.Soldiers - math.random(1, 5))
+
+					if attackerWins then
+						war.progress = math.min(1, war.progress + 0.12 + math.random() * 0.06)
+						WarLogUpdate:FireAllClients(("%s побеждает в бою против %s"):format(war.attacker, war.defender))
+					else
+						war.progress = math.max(0, war.progress - 0.08 - math.random() * 0.04)
+						WarLogUpdate:FireAllClients(("%s отбивает атаку %s"):format(war.defender, war.attacker))
+					end
+
+					-- Движение маркера
+					local api = ensureMapAPI()
+					if war.marker and api then
+						local aPos = api.GetCapitalWorldPos(war.attacker)
+						local dPos = api.GetCapitalWorldPos(war.defender)
+						if aPos and dPos then
+							local pos = aPos:Lerp(dPos, war.progress)
+							war.marker.Position = pos
+						end
+					end
+
+					if war.progress >= 1 then
+						annexCountry(war.attacker, war.defender)
+						endWar(key)
+					elseif atk.Soldiers <= 0 then
+						broadcastBanner(("%s проиграла войну против %s"):format(war.attacker, war.defender))
+						endWar(key)
+					end
+
+					for _, p in ipairs(Players:GetPlayers()) do
+						pushPlayerOwn(p)
+					end
+				end
+			end
+		end
+	end
+end)
+
+-- Стартовый список стран новым игрокам
+Players.PlayerAdded:Connect(function(player)
+	task.wait(1)
+	CountryListUpdate:FireClient(player, CountryState.ListSnapshot())
+	DateUpdate:FireClient(player, ("%d.%02d.%d"):format(day, month, year))
+end)
+
+print("[Europe] WarAndEconomyServer запущен")
+]]></string>
+      </Properties>
+    </Item>
+    <Item class="Script" referent="9">
+      <Properties>
+        <string name="Name">WorldMapGenerator</string>
+        <token name="RunContext">0</token>
+        <string name="Source"><![CDATA[--[[
+	WorldMapGenerator — строит EuropeMap из EuropeGrid + EuropeCountries.
+	Вода = фон Ocean; страны = стыкующиеся тайлы; города/столицы = маркеры.
+]]
+
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Workspace = game:GetService("Workspace")
+
+-- Ждём Bootstrap
+local worldReady = ReplicatedStorage:WaitForChild("WorldReady", 30)
+local Modules = ReplicatedStorage:WaitForChild("Modules")
+local EuropeCountries = require(Modules:WaitForChild("EuropeCountries"))
+local EuropeGrid = require(Modules:WaitForChild("EuropeGrid"))
+local CountryState = require(script.Parent:WaitForChild("CountryState"))
+
+local function ensureFolder(parent: Instance, name: string): Folder
+	local f = parent:FindFirstChild(name)
+	if f and f:IsA("Folder") then
+		return f
+	end
+	if f then
+		f:Destroy()
+	end
+	local folder = Instance.new("Folder")
+	folder.Name = name
+	folder.Parent = parent
+	return folder
+end
+
+local function clearChildren(folder: Folder)
+	for _, ch in ipairs(folder:GetChildren()) do
+		ch:Destroy()
+	end
+end
+
+CountryState.Init()
+
+local europeMap = ensureFolder(Workspace, "EuropeMap")
+local countriesFolder = ensureFolder(europeMap, "Countries")
+local citiesFolder = ensureFolder(europeMap, "Cities")
+local terrainFolder = ensureFolder(europeMap, "Terrain")
+local unitsFolder = ensureFolder(europeMap, "Units")
+clearChildren(countriesFolder)
+clearChildren(citiesFolder)
+clearChildren(terrainFolder)
+clearChildren(unitsFolder)
+
+local cellSize = EuropeGrid.CellSize
+local cols, rows = EuropeGrid.Cols, EuropeGrid.Rows
+
+-- Океан — единый фон
+local ocean = Instance.new("Part")
+ocean.Name = "Ocean"
+ocean.Anchored = true
+ocean.CanCollide = true
+ocean.Material = Enum.Material.SmoothPlastic
+ocean.Color = Color3.fromRGB(25, 70, 130)
+ocean.Size = Vector3.new(cols * cellSize + 40, 1, rows * cellSize + 40)
+ocean.Position = Vector3.new(0, -0.6, 0)
+ocean.Parent = terrainFolder
+
+-- Группируем клетки по стране
+local byCountry: { [string]: { { number, number } } } = {}
+for _, cell in ipairs(EuropeGrid.Cells) do
+	local c, r, name = cell[1], cell[2], cell[3]
+	byCountry[name] = byCountry[name] or {}
+	table.insert(byCountry[name], { c, r })
+end
+
+local countryModels: { [string]: Model } = {}
+local tileLookup: { [string]: Part } = {} -- "Country:c,r"
+
+for name, cells in pairs(byCountry) do
+	local data = EuropeCountries.Get(name)
+	local color = data and data.Color or Color3.fromRGB(120, 120, 120)
+
+	local model = Instance.new("Model")
+	model.Name = name
+	model.Parent = countriesFolder
+	countryModels[name] = model
+
+	for _, cr in ipairs(cells) do
+		local col, row = cr[1], cr[2]
+		local part = Instance.new("Part")
+		part.Name = ("T_%d_%d"):format(col, row)
+		part.Anchored = true
+		part.CanCollide = true
+		part.Material = Enum.Material.SmoothPlastic
+		part.Color = color
+		-- Без зазоров: размер = CellSize, стык встык
+		part.Size = Vector3.new(cellSize, 1.2, cellSize)
+		local pos = EuropeGrid.CellToWorld(col, row)
+		part.Position = Vector3.new(pos.X, 0.1, pos.Z)
+		part:SetAttribute("Country", name)
+		part:SetAttribute("Col", col)
+		part:SetAttribute("Row", row)
+		part.Parent = model
+		tileLookup[name .. ":" .. col .. "," .. row] = part
+
+		-- ClickDetector для выбора страны
+		local cd = Instance.new("ClickDetector")
+		cd.MaxActivationDistance = 500
+		cd.Parent = part
+	end
+end
+
+-- Маркеры городов
+local capitalSet: { [string]: boolean } = {}
+for _, c in ipairs(EuropeCountries.All()) do
+	capitalSet[c.Capital] = true
+end
+
+local function makeLabel(adornee: BasePart, text: string, maxDist: number, textSize: number, color: Color3?)
+	local bb = Instance.new("BillboardGui")
+	bb.Name = "Label"
+	bb.Adornee = adornee
+	bb.Size = UDim2.fromOffset(170, 28)
+	bb.StudsOffset = Vector3.new(0, 2.6, 0)
+	bb.AlwaysOnTop = false
+	bb.MaxDistance = maxDist
+	bb.Parent = adornee
+
+	local lbl = Instance.new("TextLabel")
+	lbl.BackgroundTransparency = 1
+	lbl.Size = UDim2.fromScale(1, 1)
+	lbl.Font = Enum.Font.GothamBold
+	lbl.TextSize = textSize
+	lbl.TextColor3 = color or Color3.new(1, 1, 1)
+	lbl.TextStrokeTransparency = 0.3
+	lbl.Text = text
+	lbl.Parent = bb
+end
+
+-- Плоская 5-конечная звезда из тонких брусков (вровень с землёй)
+local function makeStar(pos: Vector3, color: Color3): Model
+	local star = Instance.new("Model")
+	star.Name = "Star"
+	local center = Instance.new("Part")
+	center.Anchored = true
+	center.CanCollide = false
+	center.Material = Enum.Material.Neon
+	center.Color = color
+	center.Shape = Enum.PartType.Cylinder
+	center.Size = Vector3.new(0.3, 1.6, 1.6)
+	center.CFrame = CFrame.new(pos.X, 0.7, pos.Z) * CFrame.Angles(0, 0, math.rad(90))
+	center.Parent = star
+	for i = 0, 4 do
+		local ray = Instance.new("Part")
+		ray.Anchored = true
+		ray.CanCollide = false
+		ray.Material = Enum.Material.Neon
+		ray.Color = color
+		ray.Size = Vector3.new(2.6, 0.3, 0.7)
+		local ang = math.rad(i * 72 - 90)
+		ray.CFrame = CFrame.new(pos.X, 0.7, pos.Z)
+			* CFrame.Angles(0, ang, 0)
+			* CFrame.new(1.2, 0, 0)
+		ray.Parent = star
+	end
+	star.PrimaryPart = center
+	return star
+end
+
+for cityName, cell in pairs(EuropeGrid.CityCells) do
+	local col, row = cell[1], cell[2]
+	local pos = EuropeGrid.CellToWorld(col, row)
+	local isCapital = capitalSet[cityName] == true
+
+	if isCapital then
+		-- Жёлтая звезда (настоящая, 5 лучей) вровень с землёй
+		local star = makeStar(pos, Color3.fromRGB(255, 214, 40))
+		star.Name = cityName
+		if star.PrimaryPart then
+			star.PrimaryPart:SetAttribute("IsCapital", true)
+			star.PrimaryPart:SetAttribute("City", cityName)
+			makeLabel(star.PrimaryPart, "★ " .. cityName, 160, 16, Color3.fromRGB(255, 226, 120))
+		end
+		star.Parent = citiesFolder
+	else
+		-- Плоский круглый диск вровень с землёй
+		local marker = Instance.new("Part")
+		marker.Name = cityName
+		marker.Anchored = true
+		marker.CanCollide = false
+		marker.Material = Enum.Material.SmoothPlastic
+		marker.Shape = Enum.PartType.Cylinder
+		marker.Size = Vector3.new(0.25, 2.0, 2.0)
+		marker.Color = Color3.fromRGB(235, 235, 240)
+		marker.CFrame = CFrame.new(pos.X, 0.72, pos.Z) * CFrame.Angles(0, 0, math.rad(90))
+		marker:SetAttribute("IsCapital", false)
+		marker:SetAttribute("City", cityName)
+		makeLabel(marker, cityName, 70, 13)
+		marker.Parent = citiesFolder
+	end
+end
+
+-- SpawnLocation на суше (Париж / Франция)
+local spawnCol, spawnRow = EuropeGrid.GetFirstLandCell()
+local spawnPos = EuropeGrid.CellToWorld(spawnCol, spawnRow)
+
+local spawn = Workspace:FindFirstChildOfClass("SpawnLocation")
+if not spawn then
+	spawn = Instance.new("SpawnLocation")
+	spawn.Name = "SpawnLocation"
+	spawn.Parent = Workspace
+end
+spawn.Anchored = true
+spawn.Duration = 0
+spawn.Neutral = true
+spawn.Size = Vector3.new(6, 1, 6)
+spawn.Position = Vector3.new(spawnPos.X, 2, spawnPos.Z)
+spawn.BrickColor = BrickColor.new("Bright green")
+spawn.Transparency = 0.3
+
+-- API для перекраски при захвате
+local MapAPI = {}
+
+function MapAPI.RecolorCountry(countryName: string, color: Color3)
+	local model = countriesFolder:FindFirstChild(countryName)
+	if not model then
+		return
+	end
+	for _, part in ipairs(model:GetChildren()) do
+		if part:IsA("BasePart") then
+			part.Color = color
+		end
+	end
+end
+
+function MapAPI.TransferTiles(fromCountry: string, toCountry: string, color: Color3)
+	local fromModel = countriesFolder:FindFirstChild(fromCountry)
+	local toModel = countriesFolder:FindFirstChild(toCountry)
+	if not fromModel or not toModel then
+		return
+	end
+	for _, part in ipairs(fromModel:GetChildren()) do
+		if part:IsA("BasePart") then
+			part.Color = color
+			part:SetAttribute("Country", toCountry)
+			part.Parent = toModel
+		end
+	end
+end
+
+function MapAPI.GetCapitalWorldPos(countryName: string): Vector3?
+	local st = CountryState.Get(countryName)
+	if not st then
+		return nil
+	end
+	local cell = EuropeGrid.CityCells[st.Capital]
+	if not cell then
+		return nil
+	end
+	local p = EuropeGrid.CellToWorld(cell[1], cell[2])
+	return Vector3.new(p.X, 3, p.Z)
+end
+
+function MapAPI.GetUnitsFolder(): Folder
+	return unitsFolder
+end
+
+function MapAPI.GetCountriesFolder(): Folder
+	return countriesFolder
+end
+
+-- Заводы: маленькие здания вокруг столицы
+local factoriesFolder = ensureFolder(europeMap, "Factories")
+clearChildren(factoriesFolder)
+local factoryCounts: { [string]: number } = {}
+
+function MapAPI.AddFactory(countryName: string)
+	local st = CountryState.Get(countryName)
+	if not st then
+		return
+	end
+	local cell = EuropeGrid.CityCells[st.Capital]
+	if not cell then
+		return
+	end
+	local base = EuropeGrid.CellToWorld(cell[1], cell[2])
+	local n = (factoryCounts[countryName] or 0)
+	factoryCounts[countryName] = n + 1
+
+	-- расставляем заводы по спирали вокруг столицы
+	local ring = math.floor(n / 8) + 1
+	local idx = n % 8
+	local ang = math.rad(idx * 45)
+	local dist = 2.5 * ring
+	local fx = base.X + math.cos(ang) * dist
+	local fz = base.Z + math.sin(ang) * dist
+
+	local b = Instance.new("Part")
+	b.Name = "Factory_" .. countryName .. "_" .. n
+	b.Anchored = true
+	b.CanCollide = false
+	b.Material = Enum.Material.Metal
+	b.Color = Color3.fromRGB(90, 90, 100)
+	b.Size = Vector3.new(1.6, 1.8, 1.6)
+	b.Position = Vector3.new(fx, 1.0, fz)
+	b.Parent = factoriesFolder
+
+	local roof = Instance.new("Part")
+	roof.Anchored = true
+	roof.CanCollide = false
+	roof.Material = Enum.Material.Metal
+	roof.Color = Color3.fromRGB(140, 60, 40)
+	roof.Size = Vector3.new(1.7, 0.4, 1.7)
+	roof.Position = Vector3.new(fx, 2.0, fz)
+	roof.Parent = factoriesFolder
+end
+
+function MapAPI.RenderInitialFactories()
+	for name, st in pairs(CountryState.All()) do
+		local count = st.Factories or 0
+		for _ = 1, count do
+			MapAPI.AddFactory(name)
+		end
+	end
+end
+
+_G.EuropeMapAPI = MapAPI
+MapAPI.RenderInitialFactories()
+
+if worldReady and worldReady:IsA("BoolValue") then
+	worldReady.Value = true
+end
+
+local remotes = ReplicatedStorage:FindFirstChild("Remotes")
+local mapReady = remotes and remotes:FindFirstChild("MapReady")
+
+-- Загрузка персонажей после карты
+local function loadPlayer(player: Player)
+	task.defer(function()
+		if not player.Parent then
+			return
+		end
+		player:LoadCharacter()
+	end)
+end
+
+Players.PlayerAdded:Connect(function(player)
+	if worldReady and worldReady.Value then
+		loadPlayer(player)
+		if mapReady then
+			mapReady:FireClient(player)
+		end
+	end
+end)
+
+for _, player in ipairs(Players:GetPlayers()) do
+	loadPlayer(player)
+	if mapReady then
+		mapReady:FireClient(player)
+	end
+end
+
+print("[Europe] Карта построена. Стран:", #EuropeCountries.All(), "клеток:", #EuropeGrid.Cells)
+]]></string>
+      </Properties>
+    </Item>
+  </Item>
+  <Item class="StarterPlayer" referent="10">
+    <Properties>
+      <string name="Name">StarterPlayer</string>
+    </Properties>
+    <Item class="StarterPlayerScripts" referent="11">
+      <Properties>
+        <string name="Name">StarterPlayerScripts</string>
+      </Properties>
+      <Item class="LocalScript" referent="12">
+        <Properties>
+          <string name="Name">ActionPanelsClient</string>
+          <string name="Source"><![CDATA[--[[
+	ActionPanelsClient — панели: инфо о стране, рынок, исследования, объявление войны.
+]]
+
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local UserInputService = game:GetService("UserInputService")
+
+local player = Players.LocalPlayer
+local remotes = ReplicatedStorage:WaitForChild("Remotes")
+
+local CountryInfoUpdate = remotes:WaitForChild("CountryInfoUpdate")
+local BuyFactory = remotes:WaitForChild("BuyFactory")
+local TrainSoldiers = remotes:WaitForChild("TrainSoldiers")
+local BuyResearch = remotes:WaitForChild("BuyResearch")
+local DeclareWar = remotes:WaitForChild("DeclareWar")
+local WarLogUpdate = remotes:WaitForChild("WarLogUpdate")
+local CountryListUpdate = remotes:WaitForChild("CountryListUpdate")
+local ClaimCountry = remotes:WaitForChild("ClaimCountry")
+local RequestCountryInfo = remotes:WaitForChild("RequestCountryInfo")
+
+local gui = Instance.new("ScreenGui")
+gui.Name = "EuropeActions"
+gui.ResetOnSpawn = false
+gui.Parent = player:WaitForChild("PlayerGui")
+
+local panel = Instance.new("Frame")
+panel.Name = "CountryPanel"
+panel.Size = UDim2.fromOffset(280, 360)
+panel.Position = UDim2.new(0, 12, 0.5, -180)
+panel.BackgroundColor3 = Color3.fromRGB(20, 24, 36)
+panel.BackgroundTransparency = 0.1
+panel.BorderSizePixel = 0
+panel.Visible = false
+panel.Parent = gui
+
+local corner = Instance.new("UICorner")
+corner.CornerRadius = UDim.new(0, 10)
+corner.Parent = panel
+
+local title = Instance.new("TextLabel")
+title.Name = "Title"
+title.BackgroundTransparency = 1
+title.Size = UDim2.new(1, -16, 0, 28)
+title.Position = UDim2.fromOffset(8, 8)
+title.Font = Enum.Font.GothamBold
+title.TextSize = 18
+title.TextColor3 = Color3.fromRGB(245, 245, 250)
+title.TextXAlignment = Enum.TextXAlignment.Left
+title.Text = "Страна"
+title.Parent = panel
+
+local info = Instance.new("TextLabel")
+info.Name = "Info"
+info.BackgroundTransparency = 1
+info.Size = UDim2.new(1, -16, 0, 120)
+info.Position = UDim2.fromOffset(8, 40)
+info.Font = Enum.Font.Gotham
+info.TextSize = 14
+info.TextColor3 = Color3.fromRGB(210, 215, 230)
+info.TextXAlignment = Enum.TextXAlignment.Left
+info.TextYAlignment = Enum.TextYAlignment.Top
+info.Text = ""
+info.Parent = panel
+
+local function makeButton(name: string, text: string, y: number, color: Color3): TextButton
+	local btn = Instance.new("TextButton")
+	btn.Name = name
+	btn.Size = UDim2.new(1, -24, 0, 32)
+	btn.Position = UDim2.fromOffset(12, y)
+	btn.BackgroundColor3 = color
+	btn.Font = Enum.Font.GothamMedium
+	btn.TextSize = 14
+	btn.TextColor3 = Color3.new(1, 1, 1)
+	btn.Text = text
+	btn.AutoButtonColor = true
+	btn.Parent = panel
+	local c = Instance.new("UICorner")
+	c.CornerRadius = UDim.new(0, 6)
+	c.Parent = btn
+	return btn
+end
+
+local claimBtn = makeButton("Claim", "Стать лидером", 170, Color3.fromRGB(40, 120, 80))
+local factoryBtn = makeButton("Factory", "Купить фабрику", 208, Color3.fromRGB(50, 90, 160))
+local trainBtn = makeButton("Train", "Нанять солдат (+5)", 246, Color3.fromRGB(120, 70, 40))
+local researchBtn = makeButton("Research", "Исследование", 284, Color3.fromRGB(90, 50, 140))
+local warBtn = makeButton("War", "Объявить войну", 322, Color3.fromRGB(160, 40, 40))
+
+-- Лог войны
+local logFrame = Instance.new("Frame")
+logFrame.Name = "WarLog"
+logFrame.Size = UDim2.fromOffset(320, 100)
+logFrame.Position = UDim2.new(0.5, -160, 1, -120)
+logFrame.BackgroundColor3 = Color3.fromRGB(15, 18, 28)
+logFrame.BackgroundTransparency = 0.25
+logFrame.BorderSizePixel = 0
+logFrame.Parent = gui
+local lc = Instance.new("UICorner")
+lc.CornerRadius = UDim.new(0, 8)
+lc.Parent = logFrame
+
+local logTitle = Instance.new("TextLabel")
+logTitle.BackgroundTransparency = 1
+logTitle.Size = UDim2.new(1, -10, 0, 20)
+logTitle.Position = UDim2.fromOffset(8, 4)
+logTitle.Font = Enum.Font.GothamBold
+logTitle.TextSize = 13
+logTitle.TextColor3 = Color3.fromRGB(220, 180, 100)
+logTitle.TextXAlignment = Enum.TextXAlignment.Left
+logTitle.Text = "Военный журнал"
+logTitle.Parent = logFrame
+
+local logText = Instance.new("TextLabel")
+logText.BackgroundTransparency = 1
+logText.Size = UDim2.new(1, -12, 1, -28)
+logText.Position = UDim2.fromOffset(8, 24)
+logText.Font = Enum.Font.Gotham
+logText.TextSize = 12
+logText.TextColor3 = Color3.fromRGB(210, 215, 225)
+logText.TextXAlignment = Enum.TextXAlignment.Left
+logText.TextYAlignment = Enum.TextYAlignment.Top
+logText.Text = ""
+logText.TextWrapped = true
+logText.Parent = logFrame
+
+local logLines: { string } = {}
+local selectedCountry: string? = nil
+local myCountry: string? = nil
+local lastSnap: any = nil
+
+local function factoryPrice(factories: number): number
+	return math.floor(120 * (1 + factories * 0.35))
+end
+
+local function researchPrice(level: number): number
+	return math.floor(200 * (1 + level * 0.6))
+end
+
+local function refreshPanel(snap)
+	lastSnap = snap
+	selectedCountry = snap.Name
+	panel.Visible = true
+	title.Text = snap.Name
+	local owner = snap.OwnerName or "свободна"
+	local wars = snap.AtWarWith and #snap.AtWarWith > 0 and table.concat(snap.AtWarWith, ", ") or "нет"
+	info.Text = table.concat({
+		"Столица: " .. tostring(snap.Capital),
+		"Владелец: " .. owner,
+		("Деньги: %d"):format(snap.Money),
+		("Фабрики: %d | Солдаты: %d"):format(snap.Factories, snap.Soldiers),
+		("Население: %d"):format(snap.Population),
+		("Исследования: ур.%d"):format(snap.ResearchLevel or 0),
+		"Войны: " .. wars,
+	}, "\n")
+
+	local isMine = snap.OwnerName == player.Name
+	local canClaim = snap.OwnerName == nil and myCountry == nil
+	claimBtn.Visible = canClaim
+	factoryBtn.Visible = isMine
+	trainBtn.Visible = isMine
+	researchBtn.Visible = isMine
+	warBtn.Visible = isMine == false and myCountry ~= nil and snap.Name ~= myCountry
+
+	if isMine then
+		factoryBtn.Text = ("Купить фабрику (%d💰)"):format(factoryPrice(snap.Factories))
+		researchBtn.Text = ("Исследование (%d💰)"):format(researchPrice(snap.ResearchLevel or 0))
+	end
+end
+
+CountryInfoUpdate.OnClientEvent:Connect(function(snap)
+	if typeof(snap) ~= "table" then
+		return
+	end
+	if snap.OwnerName == player.Name then
+		myCountry = snap.Name
+	end
+	if selectedCountry == snap.Name or snap.OwnerName == player.Name then
+		refreshPanel(snap)
+	end
+end)
+
+CountryListUpdate.OnClientEvent:Connect(function(_list)
+	-- можно расширить список стран в UI позже
+end)
+
+WarLogUpdate.OnClientEvent:Connect(function(text)
+	table.insert(logLines, 1, tostring(text))
+	while #logLines > 5 do
+		table.remove(logLines)
+	end
+	logText.Text = table.concat(logLines, "\n")
+end)
+
+claimBtn.MouseButton1Click:Connect(function()
+	if selectedCountry then
+		ClaimCountry:FireServer(selectedCountry)
+	end
+end)
+
+factoryBtn.MouseButton1Click:Connect(function()
+	BuyFactory:FireServer()
+end)
+
+trainBtn.MouseButton1Click:Connect(function()
+	TrainSoldiers:FireServer()
+end)
+
+researchBtn.MouseButton1Click:Connect(function()
+	BuyResearch:FireServer()
+end)
+
+warBtn.MouseButton1Click:Connect(function()
+	if selectedCountry then
+		DeclareWar:FireServer(selectedCountry)
+	end
+end)
+
+-- Закрытие панели на Escape
+UserInputService.InputBegan:Connect(function(input, gp)
+	if gp then
+		return
+	end
+	if input.KeyCode == Enum.KeyCode.Escape then
+		panel.Visible = false
+	end
+end)
+
+-- Подсказка
+local hint = Instance.new("TextLabel")
+hint.BackgroundTransparency = 1
+hint.Size = UDim2.new(1, 0, 0, 24)
+hint.Position = UDim2.new(0, 0, 1, -28)
+hint.Font = Enum.Font.Gotham
+hint.TextSize = 13
+hint.TextColor3 = Color3.fromRGB(200, 205, 220)
+hint.Text = "Клик по стране — инфо / захват  |  Esc — закрыть панель"
+hint.Parent = gui
+]]></string>
+        </Properties>
+      </Item>
+      <Item class="LocalScript" referent="13">
+        <Properties>
+          <string name="Name">SelectCountryClient</string>
+          <string name="Source"><![CDATA[--[[
+	SelectCountryClient — стартовый экран выбора страны.
+	Показывает список свободных стран, игрок выбирает одну.
+]]
+
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local player = Players.LocalPlayer
+local remotes = ReplicatedStorage:WaitForChild("Remotes")
+local CountryListUpdate = remotes:WaitForChild("CountryListUpdate")
+local CountryInfoUpdate = remotes:WaitForChild("CountryInfoUpdate")
+local ClaimCountry = remotes:WaitForChild("ClaimCountry")
+
+local gui = Instance.new("ScreenGui")
+gui.Name = "EuropeSelect"
+gui.ResetOnSpawn = false
+gui.IgnoreGuiInset = true
+gui.DisplayOrder = 50
+gui.Parent = player:WaitForChild("PlayerGui")
+
+local dim = Instance.new("Frame")
+dim.Size = UDim2.fromScale(1, 1)
+dim.BackgroundColor3 = Color3.fromRGB(8, 10, 16)
+dim.BackgroundTransparency = 0.25
+dim.BorderSizePixel = 0
+dim.Parent = gui
+
+local panel = Instance.new("Frame")
+panel.Size = UDim2.fromOffset(560, 460)
+panel.Position = UDim2.fromScale(0.5, 0.5)
+panel.AnchorPoint = Vector2.new(0.5, 0.5)
+panel.BackgroundColor3 = Color3.fromRGB(20, 24, 36)
+panel.BorderSizePixel = 0
+panel.Parent = dim
+local pc = Instance.new("UICorner")
+pc.CornerRadius = UDim.new(0, 14)
+pc.Parent = panel
+
+local title = Instance.new("TextLabel")
+title.BackgroundTransparency = 1
+title.Size = UDim2.new(1, -24, 0, 44)
+title.Position = UDim2.fromOffset(12, 10)
+title.Font = Enum.Font.GothamBold
+title.TextSize = 24
+title.TextColor3 = Color3.fromRGB(245, 245, 250)
+title.TextXAlignment = Enum.TextXAlignment.Left
+title.Text = "Выбери свою страну"
+title.Parent = panel
+
+local subtitle = Instance.new("TextLabel")
+subtitle.BackgroundTransparency = 1
+subtitle.Size = UDim2.new(1, -24, 0, 22)
+subtitle.Position = UDim2.fromOffset(12, 52)
+subtitle.Font = Enum.Font.Gotham
+subtitle.TextSize = 14
+subtitle.TextColor3 = Color3.fromRGB(170, 180, 200)
+subtitle.TextXAlignment = Enum.TextXAlignment.Left
+subtitle.Text = "Захвати мир, начав с одной страны"
+subtitle.Parent = panel
+
+local scroll = Instance.new("ScrollingFrame")
+scroll.Size = UDim2.new(1, -24, 1, -90)
+scroll.Position = UDim2.fromOffset(12, 82)
+scroll.BackgroundTransparency = 1
+scroll.BorderSizePixel = 0
+scroll.ScrollBarThickness = 6
+scroll.CanvasSize = UDim2.new(0, 0, 0, 0)
+scroll.AutomaticCanvasSize = Enum.AutomaticSize.Y
+scroll.Parent = panel
+
+local grid = Instance.new("UIGridLayout")
+grid.CellSize = UDim2.fromOffset(168, 52)
+grid.CellPadding = UDim2.fromOffset(8, 8)
+grid.SortOrder = Enum.SortOrder.Name
+grid.Parent = scroll
+
+local chosen = false
+
+local function makeCard(snap)
+	local btn = Instance.new("TextButton")
+	btn.Name = snap.Name
+	btn.BackgroundColor3 = Color3.fromRGB(32, 38, 54)
+	btn.AutoButtonColor = true
+	btn.Text = ""
+	btn.Parent = scroll
+	local c = Instance.new("UICorner")
+	c.CornerRadius = UDim.new(0, 8)
+	c.Parent = btn
+
+	local flag = Instance.new("Frame")
+	flag.Size = UDim2.fromOffset(26, 18)
+	flag.Position = UDim2.fromOffset(8, 8)
+	flag.BorderSizePixel = 0
+	if snap.Color then
+		flag.BackgroundColor3 = Color3.new(snap.Color[1], snap.Color[2], snap.Color[3])
+	end
+	flag.Parent = btn
+	local fc = Instance.new("UICorner")
+	fc.CornerRadius = UDim.new(0, 3)
+	fc.Parent = flag
+
+	local nameLbl = Instance.new("TextLabel")
+	nameLbl.BackgroundTransparency = 1
+	nameLbl.Size = UDim2.new(1, -44, 0, 20)
+	nameLbl.Position = UDim2.fromOffset(40, 6)
+	nameLbl.Font = Enum.Font.GothamBold
+	nameLbl.TextSize = 14
+	nameLbl.TextColor3 = Color3.fromRGB(240, 240, 245)
+	nameLbl.TextXAlignment = Enum.TextXAlignment.Left
+	nameLbl.Text = snap.Name
+	nameLbl.Parent = btn
+
+	local info = Instance.new("TextLabel")
+	info.BackgroundTransparency = 1
+	info.Size = UDim2.new(1, -44, 0, 16)
+	info.Position = UDim2.fromOffset(40, 28)
+	info.Font = Enum.Font.Gotham
+	info.TextSize = 11
+	info.TextColor3 = Color3.fromRGB(160, 170, 190)
+	info.TextXAlignment = Enum.TextXAlignment.Left
+	info.Text = ("🪖 %d  🏭 %d"):format(snap.Soldiers or 0, snap.Factories or 0)
+	info.Parent = btn
+
+	btn.MouseButton1Click:Connect(function()
+		if chosen then
+			return
+		end
+		chosen = true
+		ClaimCountry:FireServer(snap.Name)
+	end)
+end
+
+local function rebuild(list)
+	if chosen then
+		return
+	end
+	for _, ch in ipairs(scroll:GetChildren()) do
+		if ch:IsA("TextButton") then
+			ch:Destroy()
+		end
+	end
+	for _, snap in ipairs(list) do
+		if not snap.OwnerName then
+			makeCard(snap)
+		end
+	end
+end
+
+CountryListUpdate.OnClientEvent:Connect(rebuild)
+
+-- Когда игрок стал владельцем — прячем экран
+CountryInfoUpdate.OnClientEvent:Connect(function(snap)
+	if typeof(snap) == "table" and snap.OwnerName == player.Name then
+		chosen = true
+		gui.Enabled = false
+	end
+end)
+]]></string>
+        </Properties>
+      </Item>
+      <Item class="LocalScript" referent="14">
+        <Properties>
+          <string name="Name">TopBarClient</string>
+          <string name="Source"><![CDATA[--[[
+	TopBarClient — верхняя панель: деньги, фабрики, население, постройки/исследования, страна, дата.
+]]
+
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local player = Players.LocalPlayer
+local remotes = ReplicatedStorage:WaitForChild("Remotes")
+local CountryInfoUpdate = remotes:WaitForChild("CountryInfoUpdate")
+local DateUpdate = remotes:WaitForChild("DateUpdate")
+local ShowBanner = remotes:WaitForChild("ShowBanner")
+local LeaderboardUpdate = remotes:WaitForChild("LeaderboardUpdate")
+
+local gui = Instance.new("ScreenGui")
+gui.Name = "EuropeTopBar"
+gui.ResetOnSpawn = false
+gui.IgnoreGuiInset = true
+gui.Parent = player:WaitForChild("PlayerGui")
+
+local bar = Instance.new("Frame")
+bar.Name = "TopBar"
+bar.Size = UDim2.new(1, 0, 0, 44)
+bar.Position = UDim2.fromOffset(0, 0)
+bar.BackgroundColor3 = Color3.fromRGB(18, 22, 32)
+bar.BackgroundTransparency = 0.15
+bar.BorderSizePixel = 0
+bar.Parent = gui
+
+local pad = Instance.new("UIPadding")
+pad.PaddingLeft = UDim.new(0, 12)
+pad.PaddingRight = UDim.new(0, 12)
+pad.Parent = bar
+
+local layout = Instance.new("UIListLayout")
+layout.FillDirection = Enum.FillDirection.Horizontal
+layout.VerticalAlignment = Enum.VerticalAlignment.Center
+layout.Padding = UDim.new(0, 16)
+layout.Parent = bar
+
+local function makeStat(name: string, defaultText: string): TextLabel
+	local lbl = Instance.new("TextLabel")
+	lbl.Name = name
+	lbl.BackgroundTransparency = 1
+	lbl.Size = UDim2.fromOffset(140, 36)
+	lbl.Font = Enum.Font.GothamMedium
+	lbl.TextSize = 14
+	lbl.TextColor3 = Color3.fromRGB(235, 240, 250)
+	lbl.TextXAlignment = Enum.TextXAlignment.Left
+	lbl.Text = defaultText
+	lbl.Parent = bar
+	return lbl
+end
+
+local countryLbl = makeStat("Country", "Страна: —")
+local moneyLbl = makeStat("Money", "💰 0")
+local factoryLbl = makeStat("Factories", "🏭 0")
+local popLbl = makeStat("Population", "👥 0")
+local buildLbl = makeStat("Buildings", "🏗 0 | 🔬 0")
+local dateLbl = makeStat("Date", "📅 —")
+dateLbl.Size = UDim2.fromOffset(120, 36)
+
+-- Флаг-цвет страны
+local flag = Instance.new("Frame")
+flag.Name = "Flag"
+flag.Size = UDim2.fromOffset(22, 14)
+flag.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+flag.BorderSizePixel = 0
+flag.LayoutOrder = -1
+flag.Parent = bar
+local flagCorner = Instance.new("UICorner")
+flagCorner.CornerRadius = UDim.new(0, 2)
+flagCorner.Parent = flag
+flag.Parent = nil
+-- Вставить флаг первым
+flag.Parent = bar
+flag.LayoutOrder = -1
+countryLbl.LayoutOrder = 0
+
+-- Баннер войны
+local banner = Instance.new("TextLabel")
+banner.Name = "Banner"
+banner.Size = UDim2.new(0.7, 0, 0, 36)
+banner.Position = UDim2.new(0.15, 0, 0, 52)
+banner.BackgroundColor3 = Color3.fromRGB(120, 30, 30)
+banner.BackgroundTransparency = 0.2
+banner.Font = Enum.Font.GothamBold
+banner.TextSize = 16
+banner.TextColor3 = Color3.new(1, 1, 1)
+banner.Visible = false
+banner.Parent = gui
+local bc = Instance.new("UICorner")
+bc.CornerRadius = UDim.new(0, 6)
+bc.Parent = banner
+
+-- Лидерборд
+local lb = Instance.new("Frame")
+lb.Name = "Leaderboard"
+lb.Size = UDim2.fromOffset(220, 180)
+lb.Position = UDim2.new(1, -230, 0, 56)
+lb.BackgroundColor3 = Color3.fromRGB(18, 22, 32)
+lb.BackgroundTransparency = 0.2
+lb.BorderSizePixel = 0
+lb.Parent = gui
+local lbc = Instance.new("UICorner")
+lbc.CornerRadius = UDim.new(0, 8)
+lbc.Parent = lb
+
+local lbTitle = Instance.new("TextLabel")
+lbTitle.BackgroundTransparency = 1
+lbTitle.Size = UDim2.new(1, -12, 0, 24)
+lbTitle.Position = UDim2.fromOffset(8, 4)
+lbTitle.Font = Enum.Font.GothamBold
+lbTitle.TextSize = 14
+lbTitle.TextColor3 = Color3.fromRGB(240, 220, 120)
+lbTitle.TextXAlignment = Enum.TextXAlignment.Left
+lbTitle.Text = "Лидерборд"
+lbTitle.Parent = lb
+
+local lbList = Instance.new("TextLabel")
+lbList.BackgroundTransparency = 1
+lbList.Size = UDim2.new(1, -12, 1, -32)
+lbList.Position = UDim2.fromOffset(8, 28)
+lbList.Font = Enum.Font.Gotham
+lbList.TextSize = 13
+lbList.TextColor3 = Color3.fromRGB(220, 225, 235)
+lbList.TextXAlignment = Enum.TextXAlignment.Left
+lbList.TextYAlignment = Enum.TextYAlignment.Top
+lbList.Text = "—"
+lbList.Parent = lb
+
+local myCountry: string? = nil
+
+local function fmtPop(n: number): string
+	if n >= 1000000 then
+		return string.format("%.1f млн", n / 1000000)
+	end
+	return tostring(math.floor(n))
+end
+
+CountryInfoUpdate.OnClientEvent:Connect(function(snap)
+	if typeof(snap) ~= "table" then
+		return
+	end
+	-- Обновляем топ-бар только для своей страны
+	if snap.OwnerName == player.Name then
+		myCountry = snap.Name
+		countryLbl.Text = "Страна: " .. snap.Name
+		moneyLbl.Text = "💰 " .. tostring(snap.Money)
+		factoryLbl.Text = "🏭 " .. tostring(snap.Factories)
+		popLbl.Text = "👥 " .. fmtPop(snap.Population)
+		buildLbl.Text = ("🏗 %d | 🔬 %d"):format(snap.Buildings or 0, snap.ResearchLevel or 0)
+		if snap.Color then
+			flag.BackgroundColor3 = Color3.new(snap.Color[1], snap.Color[2], snap.Color[3])
+		end
+	end
+end)
+
+DateUpdate.OnClientEvent:Connect(function(dateStr)
+	dateLbl.Text = "📅 " .. tostring(dateStr)
+end)
+
+ShowBanner.OnClientEvent:Connect(function(text)
+	banner.Text = "  " .. tostring(text)
+	banner.Visible = true
+	task.delay(4, function()
+		if banner.Text == "  " .. tostring(text) then
+			banner.Visible = false
+		end
+	end)
+end)
+
+LeaderboardUpdate.OnClientEvent:Connect(function(rows)
+	if typeof(rows) ~= "table" then
+		return
+	end
+	local lines = {}
+	for i, row in ipairs(rows) do
+		table.insert(lines, ("%d. %s (%s) — %d"):format(i, row.Player, row.Country, row.Score))
+	end
+	lbList.Text = #lines > 0 and table.concat(lines, "\n") or "Нет лидеров"
+end)
+]]></string>
+        </Properties>
+      </Item>
+    </Item>
+  </Item>
+</roblox>
