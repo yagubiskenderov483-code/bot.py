@@ -7,10 +7,10 @@
       "Modules": {
         "$className": "Folder",
         "EuropeCountries": {
-          "$path": "src/ReplicatedStorage/Modules/EuropeCountries.lua"
+          "$path": "roblox-europe/src/ReplicatedStorage/Modules/EuropeCountries.lua"
         },
         "EuropeGrid": {
-          "$path": "src/ReplicatedStorage/Modules/EuropeGrid.lua"
+          "$path": "roblox-europe/src/ReplicatedStorage/Modules/EuropeGrid.lua"
         }
       },
       "Remotes": {
@@ -20,16 +20,16 @@
     "ServerScriptService": {
       "$className": "ServerScriptService",
       "Bootstrap": {
-        "$path": "src/ServerScriptService/Bootstrap.server.lua"
+        "$path": "roblox-europe/src/ServerScriptService/Bootstrap.server.lua"
       },
       "CountryState": {
-        "$path": "src/ServerScriptService/CountryState.lua"
+        "$path": "roblox-europe/src/ServerScriptService/CountryState.lua"
       },
       "WorldMapGenerator": {
-        "$path": "src/ServerScriptService/WorldMapGenerator.server.lua"
+        "$path": "roblox-europe/src/ServerScriptService/WorldMapGenerator.server.lua"
       },
       "WarAndEconomyServer": {
-        "$path": "src/ServerScriptService/WarAndEconomyServer.server.lua"
+        "$path": "roblox-europe/src/ServerScriptService/WarAndEconomyServer.server.lua"
       }
     },
     "StarterPlayer": {
@@ -37,10 +37,10 @@
       "StarterPlayerScripts": {
         "$className": "StarterPlayerScripts",
         "ActionPanelsClient": {
-          "$path": "src/StarterPlayer/StarterPlayerScripts/ActionPanelsClient.client.lua"
+          "$path": "roblox-europe/src/StarterPlayer/StarterPlayerScripts/ActionPanelsClient.client.lua"
         },
         "TopBarClient": {
-          "$path": "src/StarterPlayer/StarterPlayerScripts/TopBarClient.client.lua"
+          "$path": "roblox-europe/src/StarterPlayer/StarterPlayerScripts/TopBarClient.client.lua"
         }
       }
     }
