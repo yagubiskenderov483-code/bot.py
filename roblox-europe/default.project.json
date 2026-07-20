@@ -1,0 +1,48 @@
+{
+  "name": "EuropeStrategy",
+  "tree": {
+    "$className": "DataModel",
+    "ReplicatedStorage": {
+      "$className": "ReplicatedStorage",
+      "Modules": {
+        "$className": "Folder",
+        "EuropeCountries": {
+          "$path": "src/ReplicatedStorage/Modules/EuropeCountries.lua"
+        },
+        "EuropeGrid": {
+          "$path": "src/ReplicatedStorage/Modules/EuropeGrid.lua"
+        }
+      },
+      "Remotes": {
+        "$className": "Folder"
+      }
+    },
+    "ServerScriptService": {
+      "$className": "ServerScriptService",
+      "Bootstrap": {
+        "$path": "src/ServerScriptService/Bootstrap.server.lua"
+      },
+      "CountryState": {
+        "$path": "src/ServerScriptService/CountryState.lua"
+      },
+      "WorldMapGenerator": {
+        "$path": "src/ServerScriptService/WorldMapGenerator.server.lua"
+      },
+      "WarAndEconomyServer": {
+        "$path": "src/ServerScriptService/WarAndEconomyServer.server.lua"
+      }
+    },
+    "StarterPlayer": {
+      "$className": "StarterPlayer",
+      "StarterPlayerScripts": {
+        "$className": "StarterPlayerScripts",
+        "ActionPanelsClient": {
+          "$path": "src/StarterPlayer/StarterPlayerScripts/ActionPanelsClient.client.lua"
+        },
+        "TopBarClient": {
+          "$path": "src/StarterPlayer/StarterPlayerScripts/TopBarClient.client.lua"
+        }
+      }
+    }
+  }
+}
