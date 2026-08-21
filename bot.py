@@ -7,6 +7,7 @@ API_ID = 27798369
 API_HASH = '47e0988636b0d97036a2824368142719'
 ADMIN_ID = 174415647
 BOT_TOKEN = '7821456903:BBHyC1749hv8dF05mK9pL2nY3rZ5tW8qJv1'
+BOT_USERNAME = 'FunPayDealsOTCRobot'
 # ------------------
 
 # Авто-очистка старых сессий при запуске, чтобы не было конфликтов
